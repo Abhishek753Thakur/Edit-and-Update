@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Employee's Details</title>
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+        
+
+        <link rel="stylesheet" href="editandupdate.css">
+        
+    </head>
+    <body>
+
+        <div class="employpage"> 
+            <div class="formdata">
+              
+            <form onsubmit="event.preventDefault();" autocomplete="off">
+                
+          
+              <label>Employee ID</label>
+                <input type="text" class="empid" value=""  placeholder="ID No.">
+
+              <label>Employee Name</label>
+                <input type="text" class="empname" value=""  placeholder="Full Name">
+          
+                <label>Employee Designation</label>
+                <input type="text" class="designation" value=""  placeholder="Example:- Software Engineer ">
+          
+                <label>Contact No.</label>
+                <input type="text" class="mobile" value=""  placeholder="">
+          
+                <label>Employee Salary</label>
+                <input type="text" class="empsalary" value="" placeholder="Monthly Salary">
+          
+                <div style="width:100%">
+                <input type="submit"  value="Submit"  class="button">
+                
+                </div>
+              </form>
+          
+            </div>
+          
+            <div class="display_table">
+                        <table class="list" id="employeeList">
+                              <thead>
+                                   <tr>
+                                <th>Employee ID</th>         
+                                <th>Employee Name</th>
+                                <th>Employee Designation</th>
+                                <th>Contact No.</th>
+                                <th>Salary</th>                      
+                                <th>Update & Remove</th>
+                            </tr>
+                              </thead>
+                              <tbody>
+          
+                              </tbody>
+                          </table>
+            </div>
+          </div>
+
+          <script>
+
+            var selectedRow = null;
+            var btn = document.querySelector(".button")
+            btn.addEventListener("click", employdata);
+            
+            
+            function employdata(){
+              var ax = read_Input_Value();
+              if (selectedRow == null){
+                create_Tr_Td(ax);
+                remove_input_value()
+              }
+              else{   
+                updatefunc(ax); 
+                remove_input_value(); 
+                selectedRow = null;
+              }
+            
+            }
+            
+            function read_Input_Value(){
+              var redemp={}
+              redemp["id"] = document.querySelector(".empid").value; 
+              redemp["ename"] = document.querySelector(".empname").value;
+              redemp["des"] = document.querySelector(".designation").value;
+              redemp["mob"] = document.querySelector(".mobile").value;
+              redemp["salary"] = document.querySelector(".empsalary").value;
+              return redemp
+            }
+            function create_Tr_Td(x){
+              var empTable = document.querySelector(".list");
+              var emp_tr = empTable.insertRow(empTable.length);
+              var emp_td1 = emp_tr.insertCell(0);
+              var emp_td2 = emp_tr.insertCell(1);
+              var emp_td3 = emp_tr.insertCell(2);
+              var emp_td4 = emp_tr.insertCell(3);
+              var emp_td5 = emp_tr.insertCell(4);
+              var emp_td6 = emp_tr.insertCell(5);
+              var totalRowCount = document.querySelector(".list tr").length;
+              emp_td1.innerHTML = empTable.rows.length-1;
+
+               
+              emp_td1.innerHTML = x.id;
+              emp_td2.innerHTML = x.ename;   
+              emp_td3.innerHTML = x.des;
+              emp_td4.innerHTML = x.mob;
+              emp_td5.innerHTML = x.salary;
+              emp_td6.innerHTML = '<a class="edt" onClick="onEdit(this)">Update</a> OR <a class="dlt" onClick="onDelete(this)">Remove</a>';
+            }
+            
+            
+          
+            function remove_input_value(){
+              document.querySelector(".empname").value= " ";
+              document.querySelector(".designation").value= " ";
+              document.querySelector(".mobile").value= " ";
+              document.querySelector(".empsalary").value= " ";
+              document.querySelector(".empid").value=" ";  
+            }
+            
+            function onEdit(y){
+              console.log(y);
+            
+              
+                selectedRow = y.parentElement.parentElement;
+                document.querySelector(".empid").value = selectedRow.cells[0].innerHTML;
+                document.querySelector(".empname").value = selectedRow.cells[1].innerHTML;
+                document.querySelector(".designation").value = selectedRow.cells[2].innerHTML;
+                 document.querySelector(".mobile").value = selectedRow.cells[3].innerHTML;
+                document.querySelector(".empsalary").value = selectedRow.cells[4].innerHTML;
+            }
+            
+            function updatefunc(redemp){
+              selectedRow.cells[0].innerHTML = redemp.empid;
+              selectedRow.cells[1].innerHTML = redemp.ename;
+              selectedRow.cells[2].innerHTML = redemp.des;
+              selectedRow.cells[3].innerHTML = redemp.mob;
+              selectedRow.cells[4].innerHTML = redemp.salary;
+              
+            }
+            
+            
+            function onDelete() {
+                if (confirm('Are you sure to delete this record ?')) {
+                    var selectdelete = document.querySelector("a.dlt");
+                    selectdelete = selectdelete.parentElement.parentElement.remove(0);
+                }
+            }
+            
+            
+            </script>
+
+    </body>
+</html>
